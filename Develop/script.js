@@ -1,40 +1,35 @@
-var CurrentDate = moment().local().format("dddd, MMMM Do");
-var myCurrentDate = document.querySelector("#currentDay");
-
+//current minute is calcuated to know update row colors(past,present,future) after the remaining
+//until next hour 
 var myCurrentMinute = parseInt(moment().local().format("mm"));
 
 
-myCurrentDate.innerHTML = CurrentDate;
-myCurrentHour = parseInt(moment().local().format("HH"));
-bussinesHours(9,22);
+bussinesHours(9,18);
 var rowAll = document.querySelectorAll(".row");
 var saveBtns = document.querySelectorAll(".saveBtn");
 
+//
+dateRowTimeUpdater();
+timeChecker();
     
-    
-    dateRowTimeUpdater();
-    timeChecker();
-    
-    saveBtns.forEach(function(saveBtn){ 
+//saveButtons has been collected to link them to an event listener click so that they will
+//store the values in the textbox inside the local stoarge.
+saveBtns.forEach(function(saveBtn){ 
         saveBtn.addEventListener("click",function(e){
             if(localStorage.getItem(saveBtn.parentNode.children[0].innerHTML)){
                localStorage.setItem(saveBtn.parentNode.children[0].innerHTML,{})}
 
             localStorage.setItem(saveBtn.parentNode.children[0].innerHTML,saveBtn.parentNode.children[1].value);
             saveBtn.parentNode.children[1].value;
-            // document.querySelector("#localstorageSave").innerHTML= "local storage saved";
-            // alert("aaa");
-
         })
         })
-    
 
 
+//this function gets start hour and finish hour(does not create a time slot for it)
 function bussinesHours(fromHour,toHour){
-    var container = document.querySelector(".container");
-    var bussinesHoursCount = toHour - fromHour;
-    var bussinesHoursArray = [];    
-    for (var index = 0; index < bussinesHoursCount; index++) {
+        var container = document.querySelector(".container");
+        var bussinesHoursCount = toHour - fromHour;
+        var bussinesHoursArray = [];    
+        for (var index = 0; index < bussinesHoursCount; index++) {
         bussinesHoursArray[index] = fromHour+index;
         var mySection = document.createElement("section");
         var row = document.createElement("div");
@@ -46,8 +41,6 @@ function bussinesHours(fromHour,toHour){
         var column3 = document.createElement("button");
         column3.innerHTML = "save";
         column3.classList.add("col-1","saveBtn");
-        
-
         mySection.appendChild(row);
         container.appendChild(mySection);
         row.appendChild(column1);
@@ -59,7 +52,12 @@ function bussinesHours(fromHour,toHour){
 }
 }
 
+//this function updates date and row colors(past,present,future) as per the current hour
 function dateRowTimeUpdater(){
+    var CurrentDate = moment().local().format("dddd, MMMM Do");
+    var myCurrentDate = document.querySelector("#currentDay");
+    myCurrentDate.innerHTML = CurrentDate;
+    myCurrentHour = parseInt(moment().local().format("HH"));
     CurrentDate = moment().local().format("dddd, MMMM Do");
     rowAll.forEach((row)=>{
         if(row.firstChild.innerHTML < myCurrentHour){
@@ -69,13 +67,16 @@ function dateRowTimeUpdater(){
                 else {row.children[1].classList.add("future")}
             })
         }
+
+//this is a function that trigges dateRowTimeUpdater first time after the end of the current hour
+//then keeps invoking the dateRowTimeUpdater function every hour to update  date and row color as 
+//per the new time
 function timeChecker(){
         var remainingMinutes = 60-myCurrentMinute;
         setTimeout(dateRowTimeUpdater,remainingMinutes*60*1000);
         setTimeout(function(){setInterval(dateRowTimeUpdater,60*60*1000)},remainingMinutes*60*1000);
-        setTimeout(function(){alert("hey")},10*60*1000);
         }
 
-        $('#test').innerHTML = "minaaaa";
+    
 
 
