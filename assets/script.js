@@ -2,13 +2,11 @@
 //until next hour 
 var myCurrentMinute = parseInt(moment().local().format("mm"));
 bussinesHours(9, 18);
-var rowAll = $(".row");
 var saveBtns = $(".saveBtn");
 
 //
 dateRowTimeUpdater();
 timeChecker();
-
 //saveButtons has been collected to link them to an event listener click so that they will
 //store the values in the textbox inside the local stoarge.
 
@@ -31,6 +29,7 @@ $('section').click(function (e) {
 });
 
 
+
 //this function gets start hour and finish hour(does not create a time slot for it)
 function bussinesHours(fromHour, toHour) {
   var bussinesHoursCount = toHour - fromHour;
@@ -39,7 +38,7 @@ function bussinesHours(fromHour, toHour) {
     bussinesHoursArray[index] = fromHour + index;
     var mySection = $("<section></section>");
     $(".container").append(mySection);
-
+    
     var row = $("<div></div>");
     row.addClass("row");
     var column1 = $("<div></div>");
@@ -54,13 +53,13 @@ function bussinesHours(fromHour, toHour) {
     row.append(column2);
     row.append(column3);
     column1.html(fromHour + index);
-
+    
     if (localStorage.getItem(column1.html()) != undefined) {
       column2.val(localStorage.getItem(column1.html()));
     }
     else { }
   }
-
+  
 }
 
 //this function updates date and row colors(past,present,future) as per the current hour
@@ -70,25 +69,25 @@ function dateRowTimeUpdater() {
   myCurrentDate.html(CurrentDate);
   myCurrentHour = parseInt(moment().local().format("HH"));
   CurrentDate = moment().local().format("dddd, MMMM Do");
-
-
-
+  
+  
+  
   for (var index = 0; index < $(".container section").length; index++) {
     $("section")[index].children[0].children[1].classList.remove("past");
     $("section")[index].children[0].children[1].classList.remove("present");
     $("section")[index].children[0].children[1].classList.remove("future");
-
+    
     if (parseInt($("section")[index].children[0].children[0].innerHTML) < myCurrentHour) {
       $("section")[index].children[0].children[1].classList.add("past");
     }
-
+    
     else if (parseInt($("section")[index].children[0].children[0].innerHTML) == myCurrentHour) {
       $("section")[index].children[0].children[1].classList.add("present");
     }
     else {
       $("section")[index].children[0].children[1].classList.add("future");
     }
-
+    
   }
 }
 
@@ -100,7 +99,7 @@ function dateRowTimeUpdater() {
 function timeChecker() {
   var remainingMinutes = 60 - myCurrentMinute;
   setTimeout(dateRowTimeUpdater, remainingMinutes*1000*60);
-
+  
   //this timer starts after the first timer checks, this timer checks time every hour 
   //to change the row colors according to past, present or future
   setTimeout(setInterval(dateRowTimeUpdater, 1000 * 60 * 60), 60*60*1000+remainingMinutes*1000*60);
