@@ -22,10 +22,10 @@ second one: triggers setInterval as well after the remaining minutes till next h
 
 
 Project github link
-https://github.com/Master20100/Assignment_5.git
+https://github.com/Master20100/Work-Day-Scheduler
 
 Project live link
-https://master20100.github.io/Assignment_5/
+https://master20100.github.io/Work-Day-Scheduler/
 
 screenshot of the assignment
 Please find sceenshot of the assignment in the same directory
